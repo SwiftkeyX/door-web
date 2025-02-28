@@ -25,7 +25,7 @@ export default function DistanceDisplay() {
         };
 
         fetchDistance();
-        const interval = setInterval(fetchDistance, 5000); // Fetch every 5 seconds
+        const interval = setInterval(fetchDistance, 1000); // Fetch every 5 seconds
 
         return () => clearInterval(interval); // Cleanup on unmount
     }, []);
