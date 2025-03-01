@@ -1,11 +1,12 @@
+import LogHistory from "@/components/logHistory";
 import Image from "next/image";
-import DistantDisplay from "@/app/components/DistantDisplay";
+// import DistantDisplay from "@/utils/monitorDisplay";
 
 export default function Home() {
+
   return (
     <div>
-      show ultrasonic sensor 
-      <DistantDisplay />
+      <LogHistory />
     </div>
   );
 }
