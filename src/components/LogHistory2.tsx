@@ -65,7 +65,7 @@ export default function LogHistory() {
                             </span>
                         </ul>
                     ) : (
-                        logs.map((log, index) => (
+                        logs && logs.map((log, index) => (
                             <ul key={index} className="bg-amber-50 p-[0.05rem]">
                                 <span className="font-[700] p-2">{log.time ? new Date(log.time).toLocaleString() : "N/A"}</span>
                                 {/* <td className="border p-2">{log.pet_name="DefaultPet"? "" : log.pet_name}</td> */}
