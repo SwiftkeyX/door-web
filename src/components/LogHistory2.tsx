@@ -15,11 +15,10 @@ export default function LogHistory() {
                 const res = await fetch("/api/logs");
                 const data = await res.json();
                 console.log("dataaaaaaa", data);
-                if (data) {
-                    setLogs(data);
-                }
-                else {
-                    setLogs([]);
+                if (typeof data === 'object' && !Array.isArray(data)) {
+                    setLogs([]); // If `data` is an object (and not an array), set logs to an empty array
+                } else {
+                    setLogs(data); // Otherwise, set logs to `data`
                 }
                 console.log("success in fetch data from database", data);
             } catch (error) {
