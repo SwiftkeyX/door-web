@@ -14,7 +14,12 @@ export default function LogHistory() {
             try {
                 const res = await fetch("/api/logs");
                 const data = await res.json();
-                setLogs(data);
+                console.log("dataaaaaaa", data);
+                if (typeof data === 'object' && !Array.isArray(data)) {
+                    setLogs([]); // If `data` is an object (and not an array), set logs to an empty array
+                } else {
+                    setLogs(data); // Otherwise, set logs to `data`
+                }
                 console.log("success in fetch data from database", data);
             } catch (error) {
                 console.error("Failed to fetch logs:", error);
@@ -46,7 +51,7 @@ export default function LogHistory() {
         const interval = setInterval(logFunction, 1000);
         return () => clearInterval(interval);
     }, [isCooldown]);
-
+    console.log(`logssssssssssssss`, logs)
     return (
         <div className="p-6">
             <h2 className="text-2xl font-bold mb-4">Detection Log</h2>
@@ -65,7 +70,7 @@ export default function LogHistory() {
                             </span>
                         </ul>
                     ) : (
-                        logs.map((log, index) => (
+                        logs && logs.map((log, index) => (
                             <ul key={index} className="bg-amber-50 p-[0.05rem]">
                                 <span className="font-[700] p-2">{log.time ? new Date(log.time).toLocaleString() : "N/A"}</span>
                                 {/* <td className="border p-2">{log.pet_name="DefaultPet"? "" : log.pet_name}</td> */}
