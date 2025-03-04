@@ -14,7 +14,13 @@ export default function LogHistory() {
             try {
                 const res = await fetch("/api/logs");
                 const data = await res.json();
-                setLogs(data);
+                console.log("dataaaaaaa", data);
+                if (data) {
+                    setLogs(data);
+                }
+                else {
+                    setLogs([]);
+                }
                 console.log("success in fetch data from database", data);
             } catch (error) {
                 console.error("Failed to fetch logs:", error);
