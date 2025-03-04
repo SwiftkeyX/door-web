@@ -1,5 +1,5 @@
 import ControlModule from "@/components/ControlModule";
-import LogHistory from "@/components/LogHistory";
+import LogHistory from "@/components/LogHistory2";
 import Pet from "@/components/Pet";
 import Image from "next/image";
 // import DistantDisplay from "@/utils/monitorDisplay";
