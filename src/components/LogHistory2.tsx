@@ -46,7 +46,7 @@ export default function LogHistory() {
         const interval = setInterval(logFunction, 1000);
         return () => clearInterval(interval);
     }, [isCooldown]);
-
+    console.log(`logssssssssssssss`, logs)
     return (
         <div className="p-6">
             <h2 className="text-2xl font-bold mb-4">Detection Log</h2>
