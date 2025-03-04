@@ -5,7 +5,9 @@ import { ultrasonicSensor } from "@/utils/ultrasonicSensor";
 import { ultrasonicLog } from "@/utils/ultrasonicLog";
 
 export default function LogHistory() {
-    const [logs, setLogs] = useState<{ time: string; message: string; pet_name: string }[]>([]);
+    const [logs, setLogs] = useState<
+        { time: string; message: string; pet_name: string }[]
+    >([]);
     const [isCooldown, setIsCooldown] = useState(false);
 
     // GET LOG HISTORY
@@ -31,7 +33,10 @@ export default function LogHistory() {
 
             try {
                 const ultrasoicDetect = await ultrasonicSensor();
-                if (ultrasoicDetect === "Something is near (sent notification to LINE)") {
+                if (
+                    ultrasoicDetect ===
+                    "Something is near (sent notification to LINE)"
+                ) {
                     const newLog = await ultrasonicLog();
                     setLogs((prevLogs) => [newLog, ...prevLogs]);
 
@@ -57,23 +62,30 @@ export default function LogHistory() {
                         <th className="border p-2">Message</th>
                     </tr>
                 </thead> */}
-                    {logs.length === 0 ? (
-                        <ul>
-                            <span className=" p-2 text-center">
-                                No detections yet
+                {logs.length === 0 ? (
+                    <ul>
+                        <span className=" p-2 text-center">
+                            No detections yet
+                        </span>
+                    </ul>
+                ) : (
+                    logs.map((log, index) => (
+                        <ul key={index} className="bg-amber-50 p-[0.05rem]">
+                            <span className="font-[700] p-2">
+                                {log.time
+                                    ? new Date(log.time).toLocaleString()
+                                    : "N/A"}
                             </span>
+                            {/* <td className="border p-2">{log.pet_name="DefaultPet"? "" : log.pet_name}</td> */}
+                            {log.pet_name && log.pet_name === "DefaultPet" ? (
+                                ""
+                            ) : (
+                                <span>{log.pet_name}</span>
+                            )}
+                            <span className=" p-2">{log.message}</span>
                         </ul>
-                    ) : (
-                        logs.map((log, index) => (
-                            <ul key={index} className="bg-amber-50 p-[0.05rem]">
-                                <span className="font-[700] p-2">{log.time ? new Date(log.time).toLocaleString() : "N/A"}</span>
-                                {/* <td className="border p-2">{log.pet_name="DefaultPet"? "" : log.pet_name}</td> */}
-                                {log.pet_name && log.pet_name === "DefaultPet"? "" : <span>{log.pet_name}</span>}
-                                <span className=" p-2">{log.message}</span>
-                            </ul>
-                        ))
-                    )}
-
+                    ))
+                )}
             </div>
         </div>
     );
