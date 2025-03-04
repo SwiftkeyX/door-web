@@ -5,9 +5,12 @@ import { ultrasonicSensor } from "@/utils/ultrasonicSensor";
 
 export default function LogHistory() {
     const [logs, setLogs] = useState<{ time: string; message: string }[]>([]);
+    const [isCooldown, setIsCooldown] = useState(false);
 
     useEffect(() => {
         const logFunction = async () => {
+            if (isCooldown) return; // Skip if in cooldown period
+
             try {
                 const ultrasoicDetect = await ultrasonicSensor();
                 console.log("log", logs);
@@ -19,17 +22,21 @@ export default function LogHistory() {
                     };
 
                     setLogs((prevLogs) => [newLog, ...prevLogs]); // Add new log at the top
+                    setIsCooldown(true); // Start cooldown
+
+                    setTimeout(() => {
+                        setIsCooldown(false); // Reset cooldown after delay
+                    }, 5000); // 5-second cooldown before checking again
                 }
             } catch (error) {
                 console.error("Failed to fetch distance:", error);
             }
         };
 
-        logFunction();
         const interval = setInterval(logFunction, 1000); // Check every second
 
         return () => clearInterval(interval);
-    }, []);
+    }, [isCooldown]); // Re-run effect when cooldown changes
 
     return (
         <div className="p-6">
