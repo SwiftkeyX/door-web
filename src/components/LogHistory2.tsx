@@ -57,6 +57,7 @@ export default function LogHistory() {
                         <th className="border p-2">Message</th>
                     </tr>
                 </thead> */}
+                aaaa
                     {logs.length === 0 ? (
                         <ul>
                             <span className=" p-2 text-center">
