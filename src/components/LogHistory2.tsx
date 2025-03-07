@@ -51,6 +51,7 @@ export default function LogHistory() {
         const interval = setInterval(logFunction, 1000);
         return () => clearInterval(interval);
     }, [isCooldown]);
+    
     console.log(`logssssssssssssss`, logs)
     return (
         <div className="p-6">
@@ -62,7 +63,6 @@ export default function LogHistory() {
                         <th className="border p-2">Message</th>
                     </tr>
                 </thead> */}
-                aaaa
                     {logs.length === 0 ? (
                         <ul>
                             <span className=" p-2 text-center">
