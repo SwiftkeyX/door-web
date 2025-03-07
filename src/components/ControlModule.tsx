@@ -12,11 +12,7 @@ const ControlModule = () => {
             const status = await getLockStatus();
             setIsLocked(status);
         };
-
         fetchStatus();
-        const interval = setInterval(fetchStatus, 2000); // อัปเดตทุก 2 วินาที
-
-        return () => clearInterval(interval);
     }, []);
 
     const toggleLock = async () => {
@@ -30,7 +26,8 @@ const ControlModule = () => {
             <div>
                 <div className="text-[1.2rem] font-bold">Door State</div>
                 <div>
-                    Currently : <span>{isLocked ? "LOCKED 🔒" : "UNLOCKED 🔓"}</span>
+                    Currently :{" "}
+                    <span>{isLocked ? "LOCKED 🔒" : "UNLOCKED 🔓"}</span>
                 </div>
             </div>
             <button
