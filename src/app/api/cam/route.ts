@@ -4,7 +4,7 @@ import { writeFile } from "fs/promises";
 
 let requested = false;
 
-export const GET = async (req: NextRequest, res: NextRequest) => {
+export const GET = async (req: NextRequest, res: NextResponse) => {
     return NextResponse.json(requested);
 };
 
