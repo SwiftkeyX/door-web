@@ -4,11 +4,11 @@ import { writeFile } from "fs/promises";
 
 let requested = false;
 
-export const GET = async (req: NextRequest, res: NextResponse) => {
+export const GET = async (req: NextRequest) => {
     return NextResponse.json(requested);
 };
 
-export const POST = async (req: NextRequest, res: NextResponse) => {
+export const POST = async (req: NextRequest) => {
     const formData = await req.formData();
 
     const file = formData.get("file") as File;
