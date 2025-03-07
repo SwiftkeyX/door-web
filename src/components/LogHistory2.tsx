@@ -41,7 +41,7 @@ export default function LogHistory() {
                     setLogs((prevLogs) => [newLog, ...prevLogs]);
 
                     setIsCooldown(true);
-                    setTimeout(() => setIsCooldown(false), 60_000);
+                    setTimeout(() => setIsCooldown(false), 60_000); //60second
                 }
             } catch (error) {
                 console.error("Failed to fetch distance:", error);
@@ -56,7 +56,7 @@ export default function LogHistory() {
     return (
         <div className="p-6">
             <h2 className="text-2xl font-bold mb-4">Detection Log</h2>
-            <div className="w-full">
+            <div className="w-full h-[200px] overflow-y-auto ">
                 {/* <thead>
                     <tr className="bg-gray-200">
                         <th className="border p-2">Time</th>
