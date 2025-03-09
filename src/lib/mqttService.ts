@@ -3,14 +3,14 @@ import mqtt, { MqttClient } from "mqtt";
 
 const connectMqtt = () => {
     const options = {
-        clientId: process.env.NEXT_PUBLIC_MQTT_CLIENTID,
-        username: process.env.NEXT_PUBLIC_MQTT_USERNAME,
-        password: process.env.NEXT_PUBLIC_MQTT_PASSWORD,
+        clientId: "nextjs_client",
+        username: "postman",
+        password: "Cia123123",
         reconnectPeriod: 1000,
     };
 
     const client: MqttClient = mqtt.connect(
-        process.env.NEXT_PUBLIC_MQTT_URI as string,
+        "wss://87551fa9e51248908034dbe24e14f5d3.s2.eu.hivemq.cloud:8884/mqtt",
         options
     );
 
