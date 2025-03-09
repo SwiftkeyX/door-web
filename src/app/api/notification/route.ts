@@ -5,10 +5,10 @@ const LINE_ACCESS_TOKEN = "0KERtuJg2UNYgXiAM0PExnDQAqep23fV6LwXSA6MPLHKR8GgyIPZ4
 
 export async function POST(req: NextRequest) {
     try {
-        const { userId, message } = await req.json();
+        const { userId, message, imageUrl } = await req.json();
 
-        if (!userId || !message) {
-            return NextResponse.json({ success: false, message: "Missing userId or message" }, { status: 400 });
+        if (!userId || (!message && !imageUrl)) {
+            return NextResponse.json({ success: false, message: "Missing userId, message, or imageUrl" }, { status: 400 });
         }
 
         const url = "https://api.line.me/v2/bot/message/push";
@@ -16,10 +16,24 @@ export async function POST(req: NextRequest) {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${LINE_ACCESS_TOKEN}`,
         };
-        const body = {
+
+        const body: any = {
             to: userId,
-            messages: [{ type: "text", text: message }],
+            messages: [],
         };
+
+        if (message) {
+            body.messages.push({ type: "text", text: message });
+        }
+
+        if (imageUrl) {
+            // Use the image URL as the original content URL and preview image URL
+            body.messages.push({
+                type: "image",
+                originalContentUrl: imageUrl,
+                previewImageUrl: imageUrl,
+            });
+        }
 
         const response = await axios.post(url, body, { headers });
 
