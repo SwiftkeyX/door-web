@@ -52,7 +52,7 @@ const ControlModule = () => {
                     onClick={toggleDoor}
                     className="text-[1.2rem] font-bold bg-green-700 text-white px-3 py-1 rounded-2xl"
                 >
-                    {isDoor ? "Close" : "Door"}
+                    {isDoor ? "Close" : "Open"}
                 </button>
             </div>
             
