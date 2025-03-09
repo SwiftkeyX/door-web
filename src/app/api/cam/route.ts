@@ -76,8 +76,8 @@ export const GET = async () => {
         const latestFile = files.sort().reverse()[0];
 
         // Construct the full URL of the latest image
-        const fullUrl = `http://localhost:3000/public/uploads/${latestFile}`;
-        // const fullUrl = `https://door-web.vercel.app//public/uploads/${latestFile}`;
+        // const fullUrl = `http://localhost:3000/public/uploads/${latestFile}`;
+        const fullUrl = `https://door-web.vercel.app//public/uploads/${latestFile}`;
 
         return NextResponse.json({ message: "success", filePath: fullUrl });
     } catch (error) {
