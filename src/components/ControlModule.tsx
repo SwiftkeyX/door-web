@@ -5,10 +5,13 @@ import { closeLock } from "@/utils/closeLock";
 import { getLockStatus } from "@/utils/getLockStatus";
 import { getDoorStatus } from "@/utils/getDoorStatus";
 import { closeDoor } from "@/utils/closeDoor";
+import { MqttClient } from "mqtt";
+import connectMqtt from "@/lib/mqttService";
 
 const ControlModule = () => {
     const [isLocked, setIsLocked] = useState<boolean | null>(null);
     const [isDoor, setIsDoor] = useState<boolean | null>(null);
+    const [mqttClient, setMqttClient] = useState<MqttClient | null>(null); // Store mqtt client
 
     useEffect(() => {
         const fetchStatus = async () => {
@@ -18,18 +21,34 @@ const ControlModule = () => {
             setIsLocked(status);
         };
         fetchStatus();
+
+        const client = connectMqtt(); // Connect MQTT client
+        setMqttClient(client); // Save client to state
+
+        client.on("connect", () => {
+            console.log("Client-side connected to MQTT broker");
+        });
+
+        // Clean up connection when component unmounts
+        return () => {
+            if (client) {
+                client.end();
+            }
+        };
     }, []);
 
     const toggleLock = async () => {
         const newLockState = !isLocked; // สลับสถานะ
         await closeLock(newLockState);
         setIsLocked(newLockState);
+        mqttClient?.publish("lock", newLockState ? "true" : "false");
     };
 
     const toggleDoor = async () => {
         const newLockState = !isDoor; // สลับสถานะ
         await closeDoor(newLockState);
         setIsDoor(newLockState);
+        mqttClient?.publish("door", newLockState ? "true" : "false");
     };
 
     return (
@@ -55,7 +74,6 @@ const ControlModule = () => {
                     {isDoor ? "Close" : "Door"}
                 </button>
             </div>
-            
         </div>
     );
 };
