@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export async function sensorNotification(userId: string, message: string) {
+export async function sensorNotification(userId: string, message: string, imageUrl: string) {
     try {
-        const { data } = await axios.post("/api/notification", { userId, message }, {
+        const { data } = await axios.post("/api/notification", { userId, message, imageUrl }, {
             headers: { "Content-Type": "application/json" },
         });
 
