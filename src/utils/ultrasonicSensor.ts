@@ -19,15 +19,16 @@ export async function ultrasonicSensor() {
                 throw new Error("Error fetching image");
             }
 
-            // Extract imageUrl correctly
-            const { imageUrl } = await imageResponse.json();
-            console.log(`Image URL: ${imageUrl}`);
+            // Extract filePath correctly
+            const { filePath } = await imageResponse.json();
+            console.log(`Image Responseeeeeee: ${imageResponse}`);
+            console.log(`Image URL: ${filePath}`);
 
             const userId = "Ucfe39b482a1f368e86e6852c7ca74832";
             const message = "Something is near!";
 
             // Send notification with the image URL
-            const ans = await sensorNotification(userId, message, imageUrl);
+            const ans = await sensorNotification(userId, message, filePath);
             return ans;
         }
     } catch (error) {
