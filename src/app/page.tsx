@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function Home() {
     return (
-        <div className="">
+        <div className="h-screen">
             {/* HEADER */}
             <div className="header font-bold px-[5rem] py-3 bg-amber-50">
                 <div className="text-[2rem]">PETPASS</div>
@@ -40,9 +40,7 @@ export default function Home() {
                 {/* RIGHT */}
                 <div className="px-[3rem] w-[60%]">
                     {/* CAMERA MODULE */}
-                    <div>
-
-                    </div>
+                    <div></div>
 
                     {/* LOG */}
                     <LogHistory />
