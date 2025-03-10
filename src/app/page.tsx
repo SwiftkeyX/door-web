@@ -2,7 +2,7 @@ import ControlModule from "@/components/ControlModule";
 import LogHistory from "@/components/LogHistory2";
 import Pet from "@/components/Pet";
 import PetList from "@/components/PetList";
-import { usePetQueries } from "@/utils/query/usePetQuery";
+import { usePetQueries } from "@/utils/query/usePetQueries";
 import Image from "next/image";
 // import DistantDisplay from "@/utils/monitorDisplay";
 

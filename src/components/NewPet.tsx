@@ -1,5 +1,5 @@
 import { PetPostRequest } from "@/app/api/pet/route";
-import { usePetQueries } from "@/utils/query/usePetQuery";
+import { usePetQueries } from "@/utils/query/usePetQueries";
 import type { Pet as NewPet } from "@prisma/client";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -33,7 +33,7 @@ function NewPet({ createPet }: NewPetProps) {
         <div className="bg-green-200 rounded-3xl p-3 grid grid-cols-[1fr_0.1fr]">
             <div className="flex flex-col justify-center items-start gap-y-1">
                 <input
-                    className="bg-white name font-bold text-[1.2rem]"
+                    className="bg-white name font-bold text-[1.2rem] px-2"
                     placeholder="Enter pet name here"
                     onChange={handlePetNameChange}
                     value={newPetName}

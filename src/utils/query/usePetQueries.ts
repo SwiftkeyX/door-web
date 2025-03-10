@@ -31,9 +31,19 @@ export function usePetQueries() {
         }
     }
 
+    async function deletePet(id: number) {
+        const res = await fetch(`/api/pet/${id}`, {
+            method: "DELETE",
+        });
+
+        if (res.ok) {
+            await fetchPets();
+        }
+    }
+
     useEffect(() => {
         fetchPets();
     }, []);
 
-    return { pets, fetchPets, createPet };
+    return { pets, fetchPets, createPet, deletePet };
 }
