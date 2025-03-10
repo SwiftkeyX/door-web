@@ -5,6 +5,8 @@ import Pet from "./Pet";
 import { usePetQueries } from "@/utils/query/usePetQueries";
 import NewPet from "./NewPet";
 import NewPetModal from "./NewPetModal";
+import connectMqtt from "@/lib/mqttService";
+import { useMqttClient } from "@/utils/useMqttClient";
 
 function PetList() {
     const { pets, createPet, deletePet } = usePetQueries();

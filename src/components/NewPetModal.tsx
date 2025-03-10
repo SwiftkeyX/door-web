@@ -1,10 +1,15 @@
 import { PetPostRequest } from "@/app/api/pet/route";
+import clsx from "clsx";
 import { useState } from "react";
 
 interface NewPetModalProps {
     isOpen: boolean;
     setIsOpen: (open: boolean) => void;
     createPet: (req: PetPostRequest) => Promise<void>;
+}
+
+function isValidHexString(input: string): boolean {
+    return /^[0-9A-Fa-f]+$/.test(input);
 }
 
 export default function NewPetModal({
@@ -16,9 +21,13 @@ export default function NewPetModal({
     const [petUID, setPetUID] = useState<string>("");
 
     async function handleCreatePet() {
+        if (!isValidHexString(petUID)) {
+            return;
+        }
+
         createPet({
             pet_name: petName,
-            uid: petUID,
+            uid: petUID.toUpperCase(),
         });
         setIsOpen(false);
     }
@@ -38,21 +47,44 @@ export default function NewPetModal({
                     <div className="flex flex-col">
                         <div className="font-semibold text-lg">Pet name</div>
                         <input
-                            className="border border-gray-300 rounded-lg text-md px-2"
+                            className={clsx(
+                                "border border-gray-300 rounded-lg text-md px-2",
+                                {
+                                    "ring-1 ring-red-500": petName.length == 0,
+                                }
+                            )}
                             placeholder="Enter new pet name"
                             value={petName}
                             onChange={(e) => setPetName(e.currentTarget.value)}
                         />
+
+                        {petName.length == 0 && (
+                            <div className="text-red-800 font-semibold">
+                                Name cannot be empty
+                            </div>
+                        )}
                     </div>
                     <div className="flex flex-col">
                         <div className="font-semibold text-lg">Pet UID</div>
                         <input
-                            className="border border-gray-300 rounded-lg text-md px-2"
+                            className={clsx(
+                                "border border-gray-300 rounded-lg text-md px-2",
+                                {
+                                    "ring-1 ring-red-500":
+                                        !isValidHexString(petUID),
+                                }
+                            )}
                             placeholder="Enter new pet UID in hex (ex. FF000000)"
                             maxLength={8}
                             value={petUID}
                             onChange={(e) => setPetUID(e.currentTarget.value)}
                         />
+
+                        {!isValidHexString(petUID) && (
+                            <div className="text-red-800 font-semibold">
+                                Please enter a valid hex string
+                            </div>
+                        )}
                     </div>
 
                     <button

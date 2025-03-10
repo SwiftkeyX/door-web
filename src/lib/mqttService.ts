@@ -6,7 +6,6 @@ const connectMqtt = () => {
         clientId: "nextjs_client",
         username: "postman",
         password: "Cia123123",
-        reconnectPeriod: 1000,
     };
 
     const client: MqttClient = mqtt.connect(

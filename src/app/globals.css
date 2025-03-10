@@ -28,5 +28,9 @@ body {
 }
 
 button {
-    @apply cursor-pointer;
+    @apply cursor-pointer; /* Apply cursor-pointer by default */
+}
+
+button:disabled {
+    @apply cursor-default; /* Apply cursor-default when the button is disabled */
 }

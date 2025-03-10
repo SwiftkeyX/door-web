@@ -7,13 +7,17 @@ export interface PetPostRequest {
     uid: string;
     pet_name: string;
 }
-
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const pets = await prisma.pet.findMany();
 
     if (searchParams.get("uids") === "true") {
         return NextResponse.json(pets.map((pet) => pet.uid));
+        // return new NextResponse(pets.map((pet) => pet.uid).join(","), {
+        //     headers: {
+        //         "Content-Type": "text/plain",
+        //     },
+        // });
     }
 
     return NextResponse.json(pets);
