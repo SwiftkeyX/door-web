@@ -27,7 +27,7 @@ function Home() {
                 </div>
                 <div>
                     <div className="heading">Activity History</div>
-                    <div className="text-xl rounded-2xl bg-[#f3f3f3] px-5 py-3 flex flex-col h-[250px]">
+                    <div className="text-xl rounded-2xl bg-[#f3f3f3] px-5 py-3 flex flex-col h-[670px]">
                         <div>Feb 21 21:01:23 Something has been detected</div>
                         <div>Feb 21 21:01:23 Something has been detected</div>
                     </div>

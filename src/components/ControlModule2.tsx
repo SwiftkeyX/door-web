@@ -71,9 +71,12 @@ function ControlModule2() {
             const message = String(msg);
             switch (topic) {
                 case "status": {
-                    setIsOnline(true);
-                    setIsWaitingForResponse(false);
-                    console.log("Board responded");
+                    console.log(message);
+                    if (message == "online") {
+                        setIsOnline(true);
+                        setIsWaitingForResponse(false);
+                        console.log("Board responded");
+                    }
                     break;
                 }
                 case "door/status/res": {

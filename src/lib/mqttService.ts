@@ -2,7 +2,7 @@
 import mqtt, { MqttClient } from "mqtt";
 
 const connectMqtt = () => {
-    const options = {
+    const options: mqtt.IClientOptions = {
         clientId: "nextjs_client",
         username: "postman",
         password: "Cia123123",

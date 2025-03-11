@@ -13,6 +13,8 @@ export function useMqttClient(props?: UseMqttClientProps) {
         const client = connectMqtt(); // Connect MQTT client
         setMqttClient(client); // Save client to state
 
+        console.log("useEffect() in useMqttClient");
+
         client.on("connect", () => {
             console.log("Client-side connected to MQTT broker");
 
@@ -25,6 +27,7 @@ export function useMqttClient(props?: UseMqttClientProps) {
             if (client) {
                 if (props?.topics) {
                     client.unsubscribe(props?.topics);
+                    console.log("Topics cleared");
                 }
                 client.end();
             }
