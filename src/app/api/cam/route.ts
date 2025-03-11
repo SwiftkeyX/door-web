@@ -1,88 +1,60 @@
 import { NextResponse, NextRequest } from "next/server";
-import { writeFile, unlink, readdir } from "fs/promises";
-import path from "path";
-import fs from "fs/promises";
+import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 
-export const config = {
-  api: {
-    bodyParser: false, // Disable default body parser
-  },
-};
-
-// Define the upload directory
-const UPLOAD_DIR = path.join(process.cwd(), "public/uploads");
-
-// Function to delete all files in the upload directory
-async function clearUploadDirectory() {
-  try {
-    const files = await readdir(UPLOAD_DIR);
-    for (const file of files) {
-      await unlink(path.join(UPLOAD_DIR, file));
-      console.log(`Deleted file: ${file}`);
-    }
-    console.log("Upload directory cleared.");
-  } catch (error) {
-    console.error("Error clearing upload directory:", error);
-  }
-}
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export const POST = async (req: NextRequest) => {
   try {
-    // Parse the form data
     const data = await req.formData();
     const file = data.get("file");
 
-    // Check if the file exists and is a File object
     if (!file || !(file instanceof File)) {
       return NextResponse.json({ error: "No file received or invalid file type" }, { status: 400 });
     }
 
-    // Ensure the upload directory exists
-    await fs.mkdir(UPLOAD_DIR, { recursive: true });
+    // Convert file to buffer
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
 
-    // Check the number of files in the upload directory
-    const files = await readdir(UPLOAD_DIR);
-    if (files.length >= 5) {
-      // Clear the upload directory if there are 5 or more files
-      await clearUploadDirectory();
-    }
+    // Upload to Cloudinary
+    const result: UploadApiResponse = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload_stream({ folder: "uploads" }, (error, response) => {
+        if (error) reject(error);
+        else resolve(response as UploadApiResponse); // Explicitly cast response
+      }).end(buffer);
+    });
 
-    // Define new file path
-    const newFilename = `${Date.now()}_${file.name}`;
-    const newPath = path.join(UPLOAD_DIR, newFilename);
-
-    // Convert file to buffer and save it
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    await writeFile(newPath, buffer);
-
-    return NextResponse.json({ message: "success", filename: newFilename });
+    return NextResponse.json({ message: "success", filePath: result.secure_url });
   } catch (error) {
-    console.error("Error saving file:", error);
-    return NextResponse.json({ error: "Failed to save file" }, { status: 500 });
+    console.error("Error uploading file to Cloudinary:", error);
+    return NextResponse.json({ error: "Failed to upload file" }, { status: 500 });
   }
 };
 
-// GET endpoint to fetch the latest file path
 export const GET = async () => {
     try {
-        // Read all files in the upload directory
-        const files = await fs.readdir(UPLOAD_DIR);
-        if (files.length === 0) {
-            return NextResponse.json({ error: "No file available" }, { status: 404 });
-        }
-
-        // Find the latest file by timestamp (assuming filenames start with timestamps)
-        const latestFile = files.sort().reverse()[0];
-
-        // Construct the full URL of the latest image
-        // const fullUrl = `http://localhost:3000/public/uploads/${latestFile}`;
-        const fullUrl = `https://door-web.vercel.app//public/uploads/${latestFile}`;
-
-        return NextResponse.json({ message: "success", filePath: fullUrl });
+      // Fetch the latest image uploaded to Cloudinary
+      const { resources } = await cloudinary.search
+        .expression("folder:uploads") // Replace with your Cloudinary folder
+        .sort_by("created_at", "desc") // Get the latest uploaded image
+        .max_results(1)
+        .execute();
+  
+      if (resources.length === 0) {
+        return NextResponse.json({ error: "No images found" }, { status: 404 });
+      }
+  
+      const latestImageUrl = resources[0].secure_url;
+  
+      return NextResponse.json({ message: "success", filePath: latestImageUrl });
     } catch (error) {
-        console.error("Error fetching latest file path:", error);
-        return NextResponse.json({ error: "Failed to fetch latest file path" }, { status: 500 });
+      console.error("Error fetching latest file from Cloudinary:", error);
+      return NextResponse.json({ error: "Failed to fetch image" }, { status: 500 });
     }
+  };
 
-};
+

@@ -32,30 +32,29 @@ export default function LogHistory() {
     }, []);
 
     // SAVE LOG FROM ULTRASONIC SENSOR
-    // useEffect(() => {
-    //     const logFunction = async () => {
-    //         if (isCooldown) return;
+    useEffect(() => {
+        const logFunction = async () => {
+            if (isCooldown) return;
 
-    //         try {
-    //             const ultrasoicDetect = await ultrasonicSensor();
-    //             if (
-    //                 ultrasoicDetect ===
-    //                 "Something is near (sent notification to LINE)"
-    //             ) {
-    //                 const newLog = await ultrasonicLog();
-    //                 setLogs((prevLogs) => [newLog, ...prevLogs]);
+            try {
+                const ultrasoicDetect = await ultrasonicSensor();
+                if (
+                    ultrasoicDetect ===
+                    "Something is near (sent notification to LINE)"
+                ) {
+                    const newLog = await ultrasonicLog();
+                    setLogs((prevLogs) => [newLog, ...prevLogs]);
+                    setIsCooldown(true);
+                    setTimeout(() => setIsCooldown(false), 1_000); //1วินาที
+                }
+            } catch (error) {
+                console.error("Failed to fetch distance:", error);
+            }
+        };
 
-    //                 setIsCooldown(true);
-    //                 setTimeout(() => setIsCooldown(false), 60_000); //60second
-    //             }
-    //         } catch (error) {
-    //             console.error("Failed to fetch distance:", error);
-    //         }
-    //     };
-
-    //     const interval = setInterval(logFunction, 1000);
-    //     return () => clearInterval(interval);
-    // }, [isCooldown]);
+        const interval = setInterval(logFunction, 1000);
+        return () => clearInterval(interval);
+    }, [isCooldown]);
 
     console.log(`logssssssssssssss`, logs);
     return (
