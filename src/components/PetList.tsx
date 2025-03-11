@@ -3,18 +3,41 @@
 import React, { useEffect, useState } from "react";
 import Pet from "./Pet";
 import { usePetQueries } from "@/utils/query/usePetQueries";
-import NewPet from "./NewPet";
 import NewPetModal from "./NewPetModal";
-import connectMqtt from "@/lib/mqttService";
-import { useMqttClient } from "@/utils/useMqttClient";
+import { useMqtt } from "@/utils/providers/MqttProvider";
+import { PetPostRequest } from "@/app/api/pet/route";
+import toast from "react-hot-toast";
 
 function PetList() {
     const { pets, createPet, deletePet } = usePetQueries();
     const [isNewPetModalOpen, setIsNewPetModalOpen] = useState(false);
+    const { client: mqttClient } = useMqtt();
 
     useEffect(() => {
         console.log("Pets updated (from PetList):", pets);
     }, [pets]);
+
+    async function handleCreatePet(req: PetPostRequest) {
+        const res = await createPet(req);
+        mqttClient?.publish("pet", "changed");
+
+        if (res.ok) {
+            toast.success("Sucessfully added pet!");
+        } else {
+            toast.error("Failed to add pet, please try again later");
+        }
+    }
+
+    async function handleDeletePet(petId: number) {
+        const res = await deletePet(petId);
+        mqttClient?.publish("pet", "changed");
+
+        if (res.ok) {
+            toast.success("Sucessfully removed pet!");
+        } else {
+            toast.error("Failed to remove pet, please try again later");
+        }
+    }
 
     return (
         <div className="flex flex-col">
@@ -22,7 +45,7 @@ function PetList() {
                 <NewPetModal
                     isOpen={isNewPetModalOpen}
                     setIsOpen={setIsNewPetModalOpen}
-                    createPet={createPet}
+                    handleCreatePet={handleCreatePet}
                 />
             )}
 
@@ -34,23 +57,22 @@ function PetList() {
                 )}
                 {pets.length > 0 &&
                     pets?.map((pet, i) => (
-                        <Pet key={i} pet={pet} deletePet={deletePet} />
+                        <Pet
+                            key={i}
+                            pet={pet}
+                            handleDeletePet={handleDeletePet}
+                        />
                     ))}
             </div>
 
-            <div className="w-full flex flex-col lg:flex-row gap-1 lg:gap-2 mt-3">
-                <button
-                    className="text-xl font-bold bg-green-700 py-1 text-white px-4 rounded-xl w-full"
-                    onClick={() => {
-                        setIsNewPetModalOpen(true);
-                    }}
-                >
-                    Add new
-                </button>
-                <button className="text-xl font-bold bg-blue-600 py-1 text-white px-4 rounded-xl w-full">
-                    View all
-                </button>
-            </div>
+            <button
+                className="text-xl font-bold bg-green-700 py-1 text-white px-4 rounded-xl w-full mt-3"
+                onClick={() => {
+                    setIsNewPetModalOpen(true);
+                }}
+            >
+                Add new
+            </button>
         </div>
     );
 }

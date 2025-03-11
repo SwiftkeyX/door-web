@@ -1,10 +1,14 @@
 import ControlModule2 from "@/components/ControlModule2";
 import PetList from "@/components/PetList";
+import { MqttProvider } from "@/utils/providers/MqttProvider";
 import React from "react";
+import { Toaster } from "react-hot-toast";
 
 function Home() {
     return (
         <div>
+            <Toaster position="bottom-right" />
+
             <div className="bg-[#868686] flex flex-col p-5 md:p-10">
                 <div className="text-5xl font-extrabold text-white">
                     PetPass
@@ -16,14 +20,22 @@ function Home() {
 
             <div className="py-5 px-10 grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-x-16 gap-y-5">
                 <div className="flex flex-col gap-5">
-                    <div>
-                        <div className="heading">Pet List</div>
-                        <PetList />
-                    </div>
-                    <div>
-                        <div className="heading">Control Module</div>
-                        <ControlModule2 />
-                    </div>
+                    <MqttProvider
+                        topics={[
+                            "status",
+                            "door/status/res",
+                            "lock/status/res",
+                        ]}
+                    >
+                        <div>
+                            <div className="heading">Pet List</div>
+                            <PetList />
+                        </div>
+                        <div>
+                            <div className="heading">Control Module</div>
+                            <ControlModule2 />
+                        </div>
+                    </MqttProvider>
                 </div>
                 <div>
                     <div className="heading">Activity History</div>

@@ -2,32 +2,31 @@ import { PetPostRequest } from "@/app/api/pet/route";
 import clsx from "clsx";
 import { useState } from "react";
 
+function isValidHexString(input: string): boolean {
+    return /^[0-9A-Fa-f]+$/.test(input);
+}
+
 interface NewPetModalProps {
     isOpen: boolean;
     setIsOpen: (open: boolean) => void;
-    createPet: (req: PetPostRequest) => Promise<void>;
-}
-
-function isValidHexString(input: string): boolean {
-    return /^[0-9A-Fa-f]+$/.test(input);
+    handleCreatePet: (req: PetPostRequest) => Promise<void>;
 }
 
 export default function NewPetModal({
     isOpen,
     setIsOpen,
-    createPet,
+    handleCreatePet,
 }: NewPetModalProps) {
     const [petName, setPetName] = useState<string>("");
     const [petUID, setPetUID] = useState<string>("");
 
-    async function handleCreatePet() {
+    async function onClickCreatePet() {
         if (!isValidHexString(petUID)) {
             return;
         }
-
-        createPet({
+        await handleCreatePet({
             pet_name: petName,
-            uid: petUID.toUpperCase(),
+            uid: petUID,
         });
         setIsOpen(false);
     }
@@ -89,7 +88,7 @@ export default function NewPetModal({
 
                     <button
                         className="bg-green-700 text-white font-semibold rounded-md h-[30px] mt-[10px]"
-                        onClick={() => handleCreatePet()}
+                        onClick={() => onClickCreatePet()}
                     >
                         Add new
                     </button>

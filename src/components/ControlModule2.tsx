@@ -1,6 +1,6 @@
 "use client";
 
-import { useMqttClient } from "@/utils/useMqttClient";
+import { useMqtt } from "@/utils/providers/MqttProvider";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -13,9 +13,7 @@ function ControlModule2() {
     const [isDoorOpen, setIsDoorOpen] = useState<boolean | null>(null);
     const [isLocked, setIsLocked] = useState<boolean | null>(null);
 
-    const mqttClient = useMqttClient({
-        topics: ["status", "door/status/res", "lock/status/res"],
-    });
+    const { client: mqttClient } = useMqtt();
 
     function ping() {
         if (mqttClient == null) return;
@@ -25,13 +23,13 @@ function ControlModule2() {
         setIsWaitingForResponse(true);
         console.log("Waiting for response from board...");
 
-        setTimeout(() => {
-            if (isWaitingForResponse) {
-                console.log("No response");
-                setIsOnline(false);
-                setIsWaitingForResponse(false);
-            }
-        }, 5000);
+        // setTimeout(() => {
+        //     if (isWaitingForResponse) {
+        //         console.log("No response");
+        //         setIsOnline(false);
+        //         setIsWaitingForResponse(false);
+        //     }
+        // }, 5000);
     }
 
     function handleDoor() {
@@ -102,17 +100,15 @@ function ControlModule2() {
         mqttClient.publish("door/status/req", "ping");
         mqttClient.publish("lock/status/req", "ping");
 
-        const pingInterval = setInterval(ping, 20000);
+        // const pingInterval = setInterval(ping, 20000);
 
-        return () => {
-            clearInterval(pingInterval);
-        };
+        // return () => {
+        //     clearInterval(pingInterval);
+        // };
     }, [mqttClient]);
 
     return (
         <div className="flex flex-col gap-y-2">
-            <Toaster position="bottom-right" />
-
             <div className="bg-[#f3f3f3] p-4 rounded-2xl text-xl grid grid-cols-2">
                 Board Status:{" "}
                 <div className="flex justify-end px-2">

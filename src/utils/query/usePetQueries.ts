@@ -29,6 +29,8 @@ export function usePetQueries() {
         if (res.ok) {
             await fetchPets();
         }
+
+        return res;
     }
 
     async function deletePet(id: number) {
@@ -39,6 +41,8 @@ export function usePetQueries() {
         if (res.ok) {
             await fetchPets();
         }
+
+        return res;
     }
 
     useEffect(() => {

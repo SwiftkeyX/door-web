@@ -4,10 +4,10 @@ import React from "react";
 
 interface PetProps {
     pet: Pet;
-    deletePet: (id: number) => Promise<void>;
+    handleDeletePet: (id: number) => Promise<void>;
 }
 
-const Pet = ({ pet, deletePet }: PetProps) => {
+const Pet = ({ pet, handleDeletePet }: PetProps) => {
     return (
         <div className="bg-amber-200 rounded-3xl p-3 grid grid-cols-[1fr_100px]">
             <div className="flex flex-row gap-5">
@@ -23,7 +23,7 @@ const Pet = ({ pet, deletePet }: PetProps) => {
             <div className="flex justify-center items-center">
                 <button
                     className="bg-red-700 rounded-xl text-xl font-bold p-2 text-white"
-                    onClick={() => deletePet(pet.id)}
+                    onClick={() => handleDeletePet(pet.id)}
                 >
                     Remove
                 </button>
