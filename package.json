@@ -13,10 +13,12 @@
     "@prisma/client": "^6.4.1",
     "async-mutex": "^0.5.0",
     "axios": "^1.8.1",
+    "cloudinary": "^2.5.1",
     "formidable": "^3.5.2",
     "fs-extra": "^11.3.0",
     "mqtt": "^5.10.4",
     "next": "15.2.0",
+    "next-cloudinary": "^6.16.0",
     "prisma": "^6.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
