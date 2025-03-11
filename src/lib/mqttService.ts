@@ -2,10 +2,12 @@
 import mqtt, { MqttClient } from "mqtt";
 
 const connectMqtt = () => {
-    const options = {
-        clientId: "nextjs_client",
+    const options: mqtt.IClientOptions = {
+        clientId: `nextjs-client-${Math.random().toString(16).slice(2)}`,
         username: "postman",
         password: "Cia123123",
+        keepalive: 60,
+        clean: true,
         reconnectPeriod: 1000,
     };
 

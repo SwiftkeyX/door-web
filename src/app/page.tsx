@@ -1,12 +1,14 @@
 import ControlModule from "@/components/ControlModule";
 import LogHistory from "@/components/LogHistory2";
 import Pet from "@/components/Pet";
+import PetList from "@/components/PetList";
+import { usePetQueries } from "@/utils/query/usePetQueries";
 import Image from "next/image";
 // import DistantDisplay from "@/utils/monitorDisplay";
 
 export default function Home() {
     return (
-        <div className="h-screen">
+        <div className="h-full">
             {/* HEADER */}
             <div className="header font-bold px-[5rem] py-3 bg-amber-50">
                 <div className="text-[2rem]">PETPASS</div>
@@ -19,12 +21,7 @@ export default function Home() {
                 {/* LEFT */}
                 <div className=" w-[40%]">
                     {/* PET LIST */}
-                    <div className="pet-list my-5 flex flex-col gap-y-5">
-                        <div className="text-[1.4rem] font-bold">PET LIST</div>
-                        <Pet />
-                        <Pet />
-                        <Pet />
-                    </div>
+                    {/* <PetList /> */}
 
                     {/* CONTROL MODULE */}
                     <div className="flex flex-col">
