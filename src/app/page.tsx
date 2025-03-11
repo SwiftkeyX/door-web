@@ -21,7 +21,7 @@ export default function Home() {
                 {/* LEFT */}
                 <div className=" w-[40%]">
                     {/* PET LIST */}
-                    <PetList />
+                    {/* <PetList /> */}
 
                     {/* CONTROL MODULE */}
                     <div className="flex flex-col">
