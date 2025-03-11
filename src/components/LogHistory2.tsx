@@ -39,9 +39,8 @@ export default function LogHistory() {
                 if (ultrasoicDetect === "Something is near (sent notification to LINE)") {
                     const newLog = await ultrasonicLog();
                     setLogs((prevLogs) => [newLog, ...prevLogs]);
-
                     setIsCooldown(true);
-                    setTimeout(() => setIsCooldown(false), 60_000); //60second
+                    setTimeout(() => setIsCooldown(false), 1_000); //1วินาที
                 }
             } catch (error) {
                 console.error("Failed to fetch distance:", error);
