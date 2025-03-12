@@ -15,7 +15,18 @@ model Log {
 }
 
 model Pet {
-    id       Int    @id @default(autoincrement())
-    uid      String @unique
+    id       Int       @id @default(autoincrement())
+    uid      String    @unique
     pet_name String
+    DoorLog  DoorLog[]
+}
+
+model DoorLog {
+    id         Int      @id @default(autoincrement())
+    uid        String
+    pet_id     Int?
+    pet        Pet?     @relation(fields: [pet_id], references: [id])
+    opened     Boolean
+    rfid_index Int
+    created_at DateTime @default(dbgenerated("CURRENT_TIMESTAMP"))
 }
