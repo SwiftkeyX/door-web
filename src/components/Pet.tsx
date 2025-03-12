@@ -9,7 +9,7 @@ interface PetProps {
 
 const Pet = ({ pet, handleDeletePet }: PetProps) => {
     return (
-        <div className="bg-amber-200 rounded-3xl p-3 grid grid-cols-[1fr_100px]">
+        <div className="bg-amber-100 rounded-3xl p-3 grid grid-cols-[1fr_100px]">
             <div className="flex flex-row gap-5">
                 <div className="">
                     <Image src="/dog1.png" alt="" width={75} height={75} />
