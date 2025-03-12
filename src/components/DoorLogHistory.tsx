@@ -41,15 +41,17 @@ function DoorLogHistory() {
 
     return (
         <div className="text-lg rounded-2xl bg-[#f3f3f3] px-4 py-2 flex flex-col h-[200px] overflow-y-auto ">
-            {doorLogs.map((log, i) => (
-                <div key={i} className="grid grid-cols-[240px_1fr]">
-                    <span className="font-bold">
-                        {log.created_at.toLocaleDateString()},{" "}
-                        {log.created_at.toLocaleTimeString()}
-                    </span>
-                    <span>{processLog(log)}</span>
-                </div>
-            ))}
+            {doorLogs.length == 0 && "No logs yet"}
+            {doorLogs.length > 0 &&
+                doorLogs.map((log, i) => (
+                    <div key={i} className="grid grid-cols-[240px_1fr]">
+                        <span className="font-bold">
+                            {log.created_at.toLocaleDateString()},{" "}
+                            {log.created_at.toLocaleTimeString()}
+                        </span>
+                        <span>{processLog(log)}</span>
+                    </div>
+                ))}
         </div>
     );
 }
