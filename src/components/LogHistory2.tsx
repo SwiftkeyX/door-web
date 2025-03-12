@@ -58,9 +58,9 @@ export default function LogHistory() {
 
     console.log(`logssssssssssssss`, logs);
     return (
-        <div className="p-6">
+        <div>
             <h2 className="text-2xl font-bold mb-4">Detection Log</h2>
-            <div className="w-full h-[200px] overflow-y-auto ">
+            <div className="w-full h-[200px] overflow-y-auto rounded-2xl text-lg bg-[#f3f3f3] p-2">
                 {/* <thead>
                     <tr className="bg-gray-200">
                         <th className="border p-2">Time</th>
@@ -76,7 +76,7 @@ export default function LogHistory() {
                 ) : (
                     logs &&
                     logs.map((log, index) => (
-                        <ul key={index} className="bg-amber-50 p-[0.05rem]">
+                        <ul key={index} className=" p-[0.05rem]">
                             <span className="font-[700] p-2">
                                 {log.time
                                     ? new Date(log.time).toLocaleString()

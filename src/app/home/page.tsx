@@ -1,4 +1,5 @@
 import ControlModule2 from "@/components/ControlModule2";
+import LogHistory from "@/components/LogHistory2";
 import PetList from "@/components/PetList";
 import { MqttProvider } from "@/utils/providers/MqttProvider";
 import React from "react";
@@ -38,11 +39,12 @@ function Home() {
                     </MqttProvider>
                 </div>
                 <div>
-                    <div className="heading">Activity History</div>
-                    <div className="text-xl rounded-2xl bg-[#f3f3f3] px-5 py-3 flex flex-col h-[670px]">
+                    {/* <div className="heading">Activity History</div> */}
+                    <LogHistory />
+                    {/* <div className="text-xl rounded-2xl bg-[#f3f3f3] px-5 py-3 flex flex-col h-[670px]">
                         <div>Feb 21 21:01:23 Something has been detected</div>
                         <div>Feb 21 21:01:23 Something has been detected</div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

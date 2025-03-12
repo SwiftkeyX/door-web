@@ -9,7 +9,9 @@ export async function ultrasonicSensor() {
         const distanceData = await distanceResponse.json();
         const { received: distance, canNotify } = distanceData;
 
-        console.log(`Distance received: ${distance} cm, Can notify: ${canNotify}`);
+        console.log(
+            `Distance received: ${distance} cm, Can notify: ${canNotify}`
+        );
 
         if (distance <= 20 && canNotify) {
             const imageResponse = await fetch("/api/cam", { method: "GET" });
@@ -21,7 +23,7 @@ export async function ultrasonicSensor() {
             console.log(`Image Response: ${imageResponse}`);
             console.log(`Image URL: ${filePath}`);
 
-            const userId = "Ucfe39b482a1f368e86e6852c7ca74832";
+            const userId = "Udede1397a0f9a90d80e0c3bd7d7f55d4";
             const message = "Something is near!";
 
             const ans = await sensorNotification(userId, message, filePath);
